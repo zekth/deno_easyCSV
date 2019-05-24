@@ -10,7 +10,7 @@ export interface ParseOption {
 export async function parse(
   input: string,
   opt: ParseOption = { header: false }
-) {
+): Promise<unknown[]> {
   const [r, err] = await readAll(new BufReader(new StringReader(input)));
   if (err) throw err;
   if (opt.header) {
@@ -43,6 +43,6 @@ export async function parse(
 export async function parseFile(
   file: string,
   opt: ParseOption = { header: false }
-) {
+): Promise<unknown[]> {
   return parse(await readFileStr(file), opt);
 }

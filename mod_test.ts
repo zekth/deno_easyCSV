@@ -1,8 +1,5 @@
 import { test, runIfMain } from "https://deno.land/std@v0.6/testing/mod.ts";
-import {
-  assertEquals,
-  assert
-} from "https://deno.land/std@v0.6/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@v0.6/testing/asserts.ts";
 import { parseFile } from "./mod.ts";
 import { join } from "https://deno.land/std@v0.6/fs/path.ts";
 
