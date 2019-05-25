@@ -71,7 +71,7 @@ const testCases = [
   {
     name: "multiline parse",
     file: "multiline.csv",
-    parse: (e: string[]) => {
+    parse: (e: string[]): unknown => {
       return { super: e[0], street: e[1], fighter: e[2] };
     },
     header: false,
@@ -84,7 +84,7 @@ const testCases = [
     name: "header mapping object parseline",
     file: "multiline.csv",
     header: [{ name: "this" }, { name: "is" }, { name: "sparta" }],
-    parse: (e: Record<string, unknown>) => {
+    parse: (e: Record<string, unknown>): unknown => {
       return { super: e.this, street: e.is, fighter: e.sparta };
     },
     result: [
