@@ -3,8 +3,14 @@ import { readFileStr } from "https://deno.land/std/fs/read_file_str.ts";
 import { StringReader } from "https://deno.land/std/io/readers.ts";
 import { BufReader } from "https://deno.land/std/io/bufio.ts";
 
+export interface HeaderOption {
+  name: string;
+  parse?: (string) => unknown;
+}
+
 export interface ParseOption {
-  header: boolean | string[];
+  header: boolean | string[] | HeaderOption[];
+  parse?: (unknown) => unknown;
 }
 
 export async function parse(
@@ -14,12 +20,29 @@ export async function parse(
   const [r, err] = await readAll(new BufReader(new StringReader(input)));
   if (err) throw err;
   if (opt.header) {
-    let headers = [];
+    let headers: HeaderOption[] = [];
     let i = 0;
     if (Array.isArray(opt.header)) {
-      headers = opt.header;
+      if (typeof opt.header[0] !== "string") {
+        headers = opt.header as HeaderOption[];
+      } else {
+        const h = opt.header as string[];
+        headers = h.map(
+          (e): HeaderOption => {
+            return {
+              name: e
+            };
+          }
+        );
+      }
     } else {
-      headers = r.shift();
+      headers = r.shift().map(
+        (e): HeaderOption => {
+          return {
+            name: e
+          };
+        }
+      );
       i++;
     }
     return r.map(
@@ -31,11 +54,21 @@ export async function parse(
         let out = {};
         for (let j = 0; j < e.length; j++) {
           const h = headers[j];
-          out[h] = e[j];
+          if (h.parse) {
+            out[h.name] = h.parse(e[j]);
+          } else {
+            out[h.name] = e[j];
+          }
+        }
+        if (opt.parse) {
+          return opt.parse(out);
         }
         return out;
       }
     );
+  }
+  if (opt.parse) {
+    return r.map((e: string[]): unknown => opt.parse(e));
   }
   return r;
 }
