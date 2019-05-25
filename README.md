@@ -32,25 +32,25 @@ const r = await parseFile(filepath, {
 
 const r = await parseFile(filepath, {
   header: [
-      {
-        name: "this",
-        parse: (e: string): string => {
-          return `b${e}$$`;
-        }
-      },
-      {
-        name: "is",
-        parse: (e: string): number => {
-          return e.length;
-        }
-      },
-      {
-        name: "sparta",
-        parse: (e: string): unknown => {
-          return { bim: `boom-${e}` };
-        }
+    {
+      name: "this",
+      parse: (e: string): string => {
+        return `b${e}$$`;
       }
-    ]
+    },
+    {
+      name: "is",
+      parse: (e: string): number => {
+        return e.length;
+      }
+    },
+    {
+      name: "sparta",
+      parse: (e: string): unknown => {
+        return { bim: `boom-${e}` };
+      }
+    }
+  ]
 });
 // output:
 // [
@@ -60,7 +60,7 @@ const r = await parseFile(filepath, {
 
 const r = await parseFile(filepath, {
   header: ["this", "is", "sparta"],
-  parse: (e: Record<string,unknown>) => {
+  parse: (e: Record<string, unknown>) => {
     return { super: e.this, street: e.is, fighter: e.sparta };
   }
 });

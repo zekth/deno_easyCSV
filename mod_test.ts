@@ -84,12 +84,13 @@ const testCases = [
     name: "header mapping object parseline",
     file: "multiline.csv",
     header: [{ name: "this" }, { name: "is" }, { name: "sparta" }],
-    parse: (e: Record<string,unknown>) => {
+    parse: (e: Record<string, unknown>) => {
       return { super: e.this, street: e.is, fighter: e.sparta };
     },
     result: [
       { super: "a", street: "b", fighter: "c" },
-      { super: "e", street: "f", fighter: "g" }]
+      { super: "e", street: "f", fighter: "g" }
+    ]
   }
 ];
 
