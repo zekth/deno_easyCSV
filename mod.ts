@@ -5,12 +5,12 @@ import { BufReader } from "https://deno.land/std/io/bufio.ts";
 
 export interface HeaderOption {
   name: string;
-  parse?: (string) => unknown;
+  parse?: (input: string) => unknown;
 }
 
 export interface ParseOption {
   header: boolean | string[] | HeaderOption[];
-  parse?: (unknown) => unknown;
+  parse?: (input: unknown) => unknown;
 }
 
 export async function parse(
